@@ -2,6 +2,9 @@ package sg.edu.rp.webservices.pd4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,7 +20,7 @@ import java.util.List;
 public class ProgPD extends AppCompatActivity {
     private ListView lvProg;
     private ArrayList<Projects> alProg;
-    private ArrayAdapter<Projects> aaProg;
+    private ArrayAdapter aaProg;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -27,26 +30,35 @@ public class ProgPD extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prog_pd);
 
+        Log.e("", "debug:: oncr8 done");
+
         lvProg = (ListView) findViewById(R.id.lvProgramming);
         alProg = new ArrayList<Projects>();
-        aaProg = new ArrayAdapter<Projects>(this, android.R.layout.simple_list_item_1, alProg);
+        aaProg = new ProjectAdapter(this, R.layout.row, alProg);
         lvProg.setAdapter(aaProg);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("projects");
+        Log.e("", "debug:: oncr8 done 3");
 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Projects projects = dataSnapshot.getValue(Projects.class);
-                if (projects != null){
+                if (projects != null) {
                     projects.setId(dataSnapshot.getKey());
+
+                    alProg.add(projects);
                     aaProg.notifyDataSetChanged();
                 }
+
             }
+
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.e("", "debug:: oncr8 done 5");
+
                 String selectedId = dataSnapshot.getKey();
                 Projects projects = dataSnapshot.getValue(Projects.class);
                 if (projects != null) {
@@ -75,6 +87,13 @@ public class ProgPD extends AppCompatActivity {
 
             }
         });
+        lvProg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //do something with this
+            }
+        });
+
 
     }
 }

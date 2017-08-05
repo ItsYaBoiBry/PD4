@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btnProg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TempProgPD.class);
+                Intent intent = new Intent(MainActivity.this, ProgPD.class);
                 startActivity(intent);
             }
         });

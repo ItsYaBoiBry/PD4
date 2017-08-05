@@ -18,8 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PhotoPD" />
-        <activity android:name=".ProgPD" />
-        <activity android:name=".TempProgPD"></activity>
+        <activity android:name=".ProgPD" ></activity>
     </application>
 
 </manifest>
